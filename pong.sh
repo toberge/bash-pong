@@ -39,6 +39,8 @@ BAT_SIZE=$((HEIGHT / 5 + 1))
 
 CLEAR_POINTS=()
 
+SCORE=0
+
 init() {
     clear
     # dump of relevant terminfo strs:
@@ -80,7 +82,9 @@ welcome() {
 game_over() {
     tput clear
     centered_text "game over pal"
-    sleep 1
+    sleep .7
+    centered_text "You got $((SCORE / 2)) points!"
+    sleep .7
     quit
 }
 
@@ -179,10 +183,22 @@ update_ball() {
     # - then, is it caught by any bat?
     if (( BALL_X >= MARGIN_RIGHT - 1 ))
     then
-        caught_by_bat && DELTA_X=-1 || DELTA_X=1
+        if caught_by_bat
+        then
+            DELTA_X=-1
+            SCORE=$((SCORE+1))
+        else
+            DELTA_X=1
+        fi
     elif (( BALL_X <= MARGIN_LEFT + 1 ))
     then
-        caught_by_bat && DELTA_X=1 || DELTA_X=-1
+        if caught_by_bat
+        then
+            DELTA_X=1
+            SCORE=$((SCORE+1))
+        else
+            DELTA_X=-1
+        fi
     fi
 
     # Bounce back when hitting top/bottom
