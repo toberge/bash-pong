@@ -1,5 +1,7 @@
 # Singleplayer Pong written in bash
 
+![demo](demo.svg)
+
 ## Usage
 
 Clone the repo, `cd` into it, then simply run
